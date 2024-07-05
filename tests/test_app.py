@@ -69,8 +69,8 @@ def test_update_user_exception(client):
             'username': 'testusername2',
             'email': 'test@test.com',
             'id': -1,
-        }
-        )
+        },
+    )
 
     second_response = client.put(
         '/users/5',
@@ -79,8 +79,27 @@ def test_update_user_exception(client):
             'username': 'testusername2',
             'email': 'test@test.com',
             'id': 5,
-        }
-        )
+        },
+    )
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert second_response.status_code == HTTPStatus.NOT_FOUND
+
+    assert response.json() == {'detail': 'User not found'}
+    assert second_response.json() == {'detail': 'User not found'}
+
+
+def test_delete_user(client):
+    response = client.delete('/users/1')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'message': 'User deleted!'}
+
+
+def test_delete_user_exception(client):
+    response = client.delete('/users/-1')
+
+    second_response = client.delete('/users/5')
 
     assert response.status_code == HTTPStatus.NOT_FOUND
     assert second_response.status_code == HTTPStatus.NOT_FOUND
