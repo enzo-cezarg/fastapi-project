@@ -1,15 +1,89 @@
 from http import HTTPStatus
 
-from fastapi.testclient import TestClient
 
-from fastapi_project.app import app
+def test_read_root_retorna_ok_e_ola_mundo(client):
+    response = client.get('/')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {'message': 'Olá mundo!'}
 
 
-def test_read_root_retorna_ok_e_ola_mundo():
-    # Exemplo de teste Triple A
-    client = TestClient(app)  # Arrange
+def test_create_user(client):
+    response = client.post(  # UserSchema
+        '/users/',
+        json={
+            'username': 'testusername',
+            'password': 'password123',
+            'email': 'test@test.com',
+        },
+    )
 
-    response = client.get('/')  # Act
+    # Voltou o status code correto?
+    assert response.status_code == HTTPStatus.CREATED
+    # Validar UserPublic
+    assert response.json() == {
+        'username': 'testusername',
+        'email': 'test@test.com',
+        'id': 1,
+    }
 
-    assert response.status_code == HTTPStatus.OK  # Assert
-    assert response.json() == {'message': 'Olá mundo!'}  # Assert
+
+def test_read_users(client):
+    response = client.get('/users/')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'users': [
+            {
+                'username': 'testusername',
+                'email': 'test@test.com',
+                'id': 1,
+            }
+        ]
+    }
+
+
+def test_update_user(client):
+    response = client.put(
+        '/users/1',
+        json={
+            'password': 'password123',
+            'username': 'testusername2',
+            'email': 'test@test.com',
+            'id': 1,
+        },
+    )
+
+    assert response.json() == {
+        'username': 'testusername2',
+        'email': 'test@test.com',
+        'id': 1,
+    }
+
+
+def test_update_user_exception(client):
+    response = client.put(
+        '/users/-1',
+        json={
+            'password': 'password123',
+            'username': 'testusername2',
+            'email': 'test@test.com',
+            'id': -1,
+        }
+        )
+
+    second_response = client.put(
+        '/users/5',
+        json={
+            'password': 'password123',
+            'username': 'testusername2',
+            'email': 'test@test.com',
+            'id': 5,
+        }
+        )
+
+    assert response.status_code == HTTPStatus.NOT_FOUND
+    assert second_response.status_code == HTTPStatus.NOT_FOUND
+
+    assert response.json() == {'detail': 'User not found'}
+    assert second_response.json() == {'detail': 'User not found'}
