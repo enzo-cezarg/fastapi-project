@@ -1,13 +1,18 @@
 # 📙 FastAPI Study Project
 
-This project is being developed for learning purposes, through @dunossauro 's guide for the FastAPI Python framework, while also exploring theoretical concepts such as Triple A test pattern, web development fundamentals and more.
+This project is being developed for learning purposes, through @dunossauro 's guide for the FastAPI Python framework, while also exploring theoretical concepts such as Triple A test pattern, web development fundamentals, ORM Database Management _etc_.
 
-Other technologies that I'm currently learning in this project are: 
+Other technologies that I'm currently learning in this project are:<br>
+### Environment:
 - `docker` for containerizing the application.
 - `poetry` for managing virtual environments .
 - `pyenv` for managing Python versions.
+- `alembic` for managing database's versions.
+
+### Python Frameworks and Tools:
 - `pytest` for automating tests.
 - `taskipy` for simplifying commands.
+- `sql-alchemy` for managing the database through an ORM system.
 
 ## Dependencies
 
