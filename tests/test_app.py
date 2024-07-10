@@ -9,21 +9,18 @@ def test_read_root_retorna_ok_e_ola_mundo(client):
 
 
 def test_create_user(client):
-    response = client.post(  # UserSchema
+    response = client.post(
         '/users/',
         json={
-            'username': 'testusername',
-            'password': 'password123',
-            'email': 'test@test.com',
+            'username': 'alice',
+            'email': 'alice@example.com',
+            'password': 'secret',
         },
     )
-
-    # Voltou o status code correto?
     assert response.status_code == HTTPStatus.CREATED
-    # Validar UserPublic
     assert response.json() == {
-        'username': 'testusername',
-        'email': 'test@test.com',
+        'username': 'alice',
+        'email': 'alice@example.com',
         'id': 1,
     }
 
