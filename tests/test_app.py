@@ -71,6 +71,17 @@ def test_read_users_with_user(client, user):
     assert response.json() == {'users': [user_schema]}
 
 
+def test_read_user_by_id(client, user):
+    response = client.get('/users/1')
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {
+        'id': 1,
+        'username': 'Teste',
+        'email': 'test@mail.com',
+    }
+
+
 def test_update_user(client, user):
     response = client.put(
         '/users/1',
@@ -124,7 +135,7 @@ def test_delete_user(client, user):
     assert response.json() == {'message': 'User deleted!'}
 
 
-def test_delete_user_exception(client):
+def test_delete_user_exception(client, user):
     response = client.delete('/users/-1')
 
     second_response = client.delete('/users/5')
