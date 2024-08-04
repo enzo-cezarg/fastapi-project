@@ -4,8 +4,7 @@ This project is being developed for learning purposes, through @dunossauro 's gu
 
 Other technologies that I'm currently learning in this project are:<br>
 ### Environment:
-- `docker` for containerizing the application.
-- `poetry` for managing virtual environments .
+- `poetry` for managing virtual environments.
 - `pyenv` for managing Python versions.
 - `alembic` for managing database's versions.
 
